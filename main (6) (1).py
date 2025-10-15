@@ -624,11 +624,15 @@ async def txt_handler(bot: Client, m: Message):
                 continue
 
     except Exception as e:
-        await m.reply_text(e)
-    await m.reply_text("𝐀𝐋𝐋 𝐃𝐎𝐍𝐄 ✅ Download By : @SmartBoy_ApnaMS")
+    await m.reply_text(str(e))
 
-
-
-bot.run()
-if __name__ == "__main__":
-    asyncio.run(main())
+    user = m.from_user
+    if user:
+        # if user has username, show it; otherwise create clickable link to profile
+        if getattr(user, "username", None):
+            profile_link = f"@{user.username}"
+        else:
+            profile_link = f'<a href="tg://user?id={user.id}">{user.first_name}</a>'
+        await m.reply_text(f"𝐀𝐋𝐋 𝐃𝐎𝐍𝐄 ✅😎 Download By : {profile_link}", parse_mode="html")
+    else:
+        await m.reply_text("𝐀𝐋𝐋 𝐃𝐎𝐍𝐄 ✅😎 Download By : ༺𝗩𝗜𝗣 𝗕𝗥𝗢𝗧𝗛𝗘𝗥𝗦༻")
